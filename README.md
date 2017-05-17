@@ -1,4 +1,4 @@
-# lampiotproject
+# Lamp Internet of Thing App and Arduino Project
 
 This project was created by Adam Epstein and I, along with samples of code provided by the instructor.
 There are two components:
