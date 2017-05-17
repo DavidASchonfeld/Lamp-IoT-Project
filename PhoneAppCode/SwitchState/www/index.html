@@ -1,0 +1,238 @@
+<!-- Adam Epstein and David Schonfeld-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"> -->
+  <link rel="stylesheet" href="lib/onsen/css/onsenui.css"/>
+  <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css"/>
+  <link rel="stylesheet" href="css/index.css"/>
+
+  <script src="lib/onsen/js/onsenui.js"></script>
+  <!-- Uncommenting the lines below can enable / disable the Android Style -->
+  <!--
+  <script>
+  ons.platform.select("android");
+</script>
+<!-- -->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<title>Bluetooth Lamp</title>
+</head>
+<body>
+  <ons-tabbar>
+    <ons-tab label="Connect" page = "navigator.html" active onclick="noTab()">
+
+    </ons-tab>
+    <ons-tab label="On/Off" page="tab1.html" icon = "fa-server" onclick = "onTabPressed()">
+    </ons-tab>
+    <ons-tab label="Colors" page="tab2.html"  icon = "fa-calendar" onclick = "colorTabPressed()">
+    </ons-tab>
+    <ons-tab label="Time" page="tab3.html" icon = "fa-percent" onclick = "timeTabPressed()">
+    </ons-tab>
+  </ons-tabbar>
+
+
+
+
+  <ons-modal id="refreshDevicesModal" animation="fade">
+    <ons-progress-circular indeterminate></ons-progress-circular>
+  </ons-modal>
+
+  <ons-template id="navigator.html">
+    <ons-page id ="navigatorpage">
+      <ons-navigator id="pageNavigator" page="devices.html"></ons-navigator>
+    </ons-page>
+  </ons-template>
+
+  <!-- List of devices page -->
+  <ons-template id="devices.html">
+    <ons-page id="devicesPage">
+      <ons-toolbar>
+        <div class="center">Devices</div>
+        <div class="right">
+          <ons-toolbar-button >
+            <ons-icon icon="ion-refresh" id="refreshButton"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+
+      <ons-pull-hook id="pull-hook">
+        Pull to Refresh
+      </ons-pull-hook>
+
+
+      <ons-list id="deviceList">
+
+      </ons-list>
+    </ons-page>
+  </ons-template>
+
+
+  <!-- Specific device page -->
+  <ons-template id="deviceDetails.html">
+    <ons-page id="deviceDetails">
+      <ons-toolbar>
+        <div class="left"><ons-back-button>Disconnect</ons-back-button></div>
+        <div class="center">Device Details</div>
+      </ons-toolbar>
+
+      <ons-modal id="connectingModal" animation="fade">
+        Connecting...<br />
+        <ons-progress-circular indeterminate></ons-progress-circular>
+      </ons-modal>
+
+      <div class="centered" style="text-align:center; " id ="div">
+        You are Connected!
+
+      </div>
+    </ons-page>
+  </ons-template>
+
+
+<!--</body>
+</html>
+  <title>Unit Calculator</title>
+</head>
+<body>
+<ons-tabbar>
+<ons-tab label="On/Off" page="tab1.html" active icon = "fa-server">
+</ons-tab>
+<ons-tab label="Colors" page="tab2.html"  icon = "fa-calendar">
+</ons-tab>
+<ons-tab label="Time" page="tab3.html" icon = "fa-percent">
+</ons-tab>
+
+
+</ons-tabbar>
+-->
+<ons-template id="tab1.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="center">On and Off</div>
+    </ons-toolbar>
+
+    <p style="text-align: center;">
+
+      <ons-list>
+          <ons-list-header>Switch Fade</ons-list-header>
+          <ons-list-item>
+              <ons-switch id="fadeSwitch" onchange="fadeSwitched()">  </ons-switch>
+          </ons-list-item>
+          <ons-list-header>Switch Now</ons-list-header>
+          <ons-list-item>
+              <ons-switch id="nowSwitch" onchange="nowSwitched()">  </ons-switch>
+          </ons-list-item>
+          <ons-list-header>Current RGB</ons-list-header>
+          <ons-list-item>
+              R: <ons-output id="currentR"></ons-output>
+              G: <ons-output id="currentG"></ons-output>
+              B: <ons-output id="currentB"></ons-output>
+          </ons-list-item>
+      </ons-list>
+
+
+    </p>
+
+
+  </ons-page>
+</ons-template>
+
+<ons-template id="tab2.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="center">Color Switchers</div>
+    </ons-toolbar>
+    <body >
+
+      <p style="text-align: center;">
+        <ons-list>
+            <ons-list-header>Set Default Color:</ons-list-header>
+            <ons-list-item>
+                R: <ons-input type ="number" id="defaultR" min = "0" max = "100"></ons-input>
+                <br />
+                G: <ons-input type ="number" id="defaultG" min = "0" max = "100"></ons-input>
+                <br />
+                B: <ons-input type ="number" id="defaultB" min = "0" max = "100"></ons-input>
+            </ons-list-item>
+            <ons-list-item>
+                <button id="defaultSubmit" onclick = "setDefault()"> Submit</button>
+            </ons-list-item>
+            <ons-list-header>Set New Color</ons-list-header>
+            <ons-list-item>
+                R: <ons-input type ="number" id="newR" min = "0" max = "100"></ons-input>%
+                <br />
+                G: <ons-input type ="number" id="newG" min = "0" max = "100"></ons-input>%
+                <br />
+                B: <ons-input type ="number" id="newB" min = "0" max = "100"></ons-input>%
+            </ons-list-item>
+            <ons-list-item>
+                <button id="newSubmit" onclick = "newColor()">Submit</button>
+            </ons-list-item>
+        </ons-list>
+
+      </p>
+    </body>
+  </ons-page>
+</ons-template>
+
+<ons-template id="tab3.html">
+  <ons-page>
+    <ons-toolbar>
+      <div class="center">Time</div>
+    </ons-toolbar>
+
+    <p style="text-align: center;">
+
+      <ons-list>
+          <ons-list-header>Set Current Time:</ons-list-header>
+          <span id="currentTime_month"></span> <span id="currentTime_day"></span>,<span id="currentTime_year"></span>
+          <br/><span id="currentTime_hours"></span>:<span id="currentTime_minutes">:</span>,<span id="currentTime_seconds"></span>
+          <ons-list-item>
+              <button id="SettimeSubmit" onclick = "setTime()"> Set Time</button>
+          </ons-list-item>
+          <ons-list-header>Set Off Timer:</ons-list-header>
+          <ons-list-item>
+              # of Hours: <ons-input type ="number" id="offHours"></ons-input>
+              <br/># of Minutes: <ons-input type ="number" id="offMinutes"></ons-input>
+              <br/># of Seconds: <ons-input type ="number" id="offSeconds"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+              <button id="offInSubmit" onclick = "setOffIn()">Submit</button>
+          </ons-list-item>
+          <ons-list-header>Set On Timer:</ons-list-header>
+          <ons-list-item>
+              # of Hours: <ons-input type ="number" id="onHours"></ons-input>
+              <br/># of Minutes: <ons-input type ="number" id="onMinutes"></ons-input>
+              <br/># of Seconds: <ons-input type ="number" id="onSeconds"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+              <button id="onInSubmit" onclick = "setOnIn()">Submit</button>
+          </ons-list-item>
+          <ons-list-header>Set Daily Off Timer:</ons-list-header>
+          <ons-list-item>
+              Hours: <ons-input type ="number" id="offAtHours()"></ons-input>
+              <br/>Minutes: <ons-input type ="number" id="offAtMinutes"></ons-input>
+              <br/>Seconds: <ons-input type ="number" id="offAtSeconds"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+              <button id="offAtSubmit" onclick = "setOffAt()">Submit</button>
+          </ons-list-item>
+          <ons-list-header>Set Daily On Timer:</ons-list-header>
+          <ons-list-item>
+              Hours: <ons-input type ="number" id="onAtHours"></ons-input>
+              <br/>Minutes: <ons-input type ="number" id="onAtMinutes"></ons-input>
+              <br/>Seconds: <ons-input type ="number" id="onAtSeconds"></ons-input>
+          </ons-list-item>
+          <ons-list-item>
+              <button id="onAtSubmit" onclick = "setOnAt()">Submit</button>
+          </ons-list-item>
+      </ons-list>
+
+
+    </p>
+  </ons-page>
+</ons-template>
+</body>
+</html>

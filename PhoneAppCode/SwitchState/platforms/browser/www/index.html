@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width"> -->
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css"/>
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <script src="lib/onsen/js/onsenui.js"></script>
+<!-- Uncommenting the lines below can enable / disable the Android Style -->
+    <!--
+        <script>
+            ons.platform.select("android");
+        </script>
+    <!-- -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <title>Basic BLE</title>
+</head>
+<body>
+
+
+<ons-navigator id="pageNavigator" page="devices.html"></ons-navigator>
+
+<ons-modal id="refreshDevicesModal" animation="fade">
+    <ons-progress-circular indeterminate></ons-progress-circular>
+</ons-modal>
+
+<!-- List of devices page -->
+<ons-template id="devices.html">
+    <ons-page id="devicesPage">
+        <ons-toolbar>
+            <div class="center">Devices</div>
+            <div class="right">
+                <ons-toolbar-button >
+                    <ons-icon icon="ion-refresh" id="refreshButton"></ons-icon>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+
+
+       <ons-pull-hook id="pull-hook">
+            Pull to Refresh
+        </ons-pull-hook>
+
+
+        <ons-list id="deviceList">
+
+        </ons-list>
+    </ons-page>
+</ons-template>
+
+
+<!-- Specific device page -->
+<ons-template id="deviceDetails.html">
+    <ons-page id="deviceDetails">
+        <ons-toolbar>
+            <div class="left"><ons-back-button>Disconnect</ons-back-button></div>
+            <div class="center">Device Details</div>
+        </ons-toolbar>
+
+        <ons-modal id="connectingModal" animation="fade">
+            Connecting...<br />
+            <ons-progress-circular indeterminate></ons-progress-circular>
+        </ons-modal>
+
+        <div class="centered" style="text-align:center; ">
+            <ons-list>
+                <ons-list-header>Switch</ons-list-header>
+                <ons-list-item>
+                    <div class="center">
+                        <ons-switch id="buttonValue">  </ons-switch>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+
+        </div>
+    </ons-page>
+</ons-template>
+
+
+</body>
+</html>
